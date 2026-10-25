@@ -1,0 +1,18 @@
+# Virtual environment
+.venv/
+env/
+ENV/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Large downloaded raw datasets
+ml/data/Indian_crop_production_yield_dataset.csv
+
+# IDE & OS
+.vscode/
+.idea/
+Thumbs.db
+Desktop.ini

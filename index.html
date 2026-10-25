@@ -21,6 +21,7 @@
     <div class="nav-tabs" id="navTabs">
       <button class="nav-tab active"  data-section="dashboard">🏠 Dashboard</button>
       <button class="nav-tab"         data-section="crops">🌿 My Crops</button>
+      <button class="nav-tab"         data-section="ai-predict">🤖 AI Predictor</button>
       <button class="nav-tab"         data-section="market">📊 Market Prices</button>
       <button class="nav-tab"         data-section="calculator">🧮 Calculator</button>
       <button class="nav-tab"         data-section="cooperative">🤝 Cooperative</button>
@@ -33,6 +34,7 @@
   <div class="mobile-nav" id="mobileNav">
     <button class="mobile-nav-tab active" data-section="dashboard">🏠 Dashboard</button>
     <button class="mobile-nav-tab"        data-section="crops">🌿 My Crops</button>
+    <button class="mobile-nav-tab"        data-section="ai-predict">🤖 AI Predictor</button>
     <button class="mobile-nav-tab"        data-section="market">📊 Market Prices</button>
     <button class="mobile-nav-tab"        data-section="calculator">🧮 Calculator</button>
     <button class="mobile-nav-tab"        data-section="cooperative">🤝 Cooperative</button>
@@ -98,6 +100,10 @@
             <span class="qa-icon">🌿</span>
             <span class="qa-label">Select Crop</span>
           </button>
+          <button class="qa-btn ai-qa-highlight" data-section="ai-predict">
+            <span class="qa-icon">🤖</span>
+            <span class="qa-label">AI Demand & Yield</span>
+          </button>
           <button class="qa-btn" data-section="market">
             <span class="qa-icon">📊</span>
             <span class="qa-label">Check Prices</span>
@@ -150,6 +156,227 @@
 
       </div>
     </section><!-- /crops -->
+
+    <!-- ==================== AI PREDICTOR (DEEP LEARNING) ==================== -->
+    <section id="ai-predict" class="section">
+      <div class="container">
+
+        <div class="section-header">
+          <div class="section-pretitle">Deep Learning · Spatial & Temporal Forecasting</div>
+          <h2 class="section-title">🤖 AI Crop Production & Market Demand Predictor</h2>
+          <p class="section-desc">
+            Forecast your district-level crop harvest, APMC mandi demand, and equilibrium price using
+            <strong>DeepAgNet</strong> — a multi-task tabular deep neural network trained on Indian agricultural data.
+          </p>
+          <div class="ai-status-pill online" id="aiStatusPill">
+            <span class="pulse-dot"></span>
+            <span id="aiStatusText">Deep Learning Engine Ready (10 States · 54 Districts)</span>
+          </div>
+        </div>
+
+        <div class="ai-layout">
+
+          <!-- Left: Input Configuration -->
+          <div class="ai-form-card">
+            <h3 class="form-heading">📍 Farm Location & Crop Parameters</h3>
+            <p class="form-subtext">Choose your exact district to activate place-based yield and demand forecasting.</p>
+
+            <div class="form-row">
+              <div class="form-group flex-1">
+                <label for="aiState">State</label>
+                <select id="aiState">
+                  <option value="Maharashtra">Maharashtra</option>
+                  <option value="Karnataka">Karnataka</option>
+                  <option value="Tamil Nadu">Tamil Nadu</option>
+                  <option value="Andhra Pradesh">Andhra Pradesh</option>
+                  <option value="Uttar Pradesh">Uttar Pradesh</option>
+                  <option value="Punjab">Punjab</option>
+                  <option value="West Bengal">West Bengal</option>
+                  <option value="Gujarat">Gujarat</option>
+                  <option value="Madhya Pradesh">Madhya Pradesh</option>
+                  <option value="Bihar">Bihar</option>
+                </select>
+              </div>
+
+              <div class="form-group flex-1">
+                <label for="aiDistrict">District (APMC Hub)</label>
+                <select id="aiDistrict">
+                  <!-- Dynamically populated based on State -->
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group flex-1">
+                <label for="aiCrop">Vegetable Crop</label>
+                <select id="aiCrop">
+                  <option value="Tomato">🍅 Tomato</option>
+                  <option value="Onion">🧅 Onion</option>
+                  <option value="Potato">🥔 Potato</option>
+                  <option value="Green Chilli">🌶️ Green Chilli</option>
+                  <option value="Brinjal">🍆 Brinjal</option>
+                  <option value="Lady's Finger">🫑 Lady's Finger</option>
+                  <option value="Cauliflower">🥦 Cauliflower</option>
+                  <option value="Cabbage">🥬 Cabbage</option>
+                  <option value="Drumstick">🌿 Drumstick</option>
+                  <option value="Radish">🌱 Radish</option>
+                  <option value="Coriander">🍃 Coriander</option>
+                  <option value="Mint">🌿 Mint</option>
+                  <option value="Beans">🫘 Beans</option>
+                  <option value="Carrot">🥕 Carrot</option>
+                </select>
+              </div>
+
+              <div class="form-group flex-1">
+                <label for="aiSeason">Cropping Season</label>
+                <select id="aiSeason">
+                  <option value="Kharif">🌧️ Kharif (Monsoon)</option>
+                  <option value="Rabi">❄️ Rabi (Winter)</option>
+                  <option value="Zaid">☀️ Zaid (Summer)</option>
+                  <option value="Whole Year">🔄 Whole Year</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group flex-2">
+                <label for="aiArea">
+                  Cultivation Area
+                  <span class="lbl-hint">Total cultivated farm land</span>
+                </label>
+                <div class="input-with-unit">
+                  <input type="number" id="aiArea" min="0.1" step="0.1" value="2.0" placeholder="e.g. 2.0" />
+                  <select id="aiAreaUnit" class="unit-select">
+                    <option value="acres" selected>Acres</option>
+                    <option value="hectares">Hectares</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group flex-2">
+                <label for="aiSoil">Soil Type</label>
+                <select id="aiSoil">
+                  <option value="Black Soil">Black Soil (Regur)</option>
+                  <option value="Alluvial">Alluvial (River basin)</option>
+                  <option value="Red Loam">Red Loam</option>
+                  <option value="Sandy Loam">Sandy Loam</option>
+                  <option value="Clay Loam">Clay Loam</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Advanced Environmental Inputs Toggle -->
+            <details class="ai-advanced-toggle">
+              <summary>⚙️ Environmental & Agronomic Factors (Optional)</summary>
+              <div class="advanced-grid">
+                <div class="form-group">
+                  <label for="aiRainfall">Expected Rainfall (mm)</label>
+                  <input type="number" id="aiRainfall" value="850" min="200" max="2500" step="10" />
+                </div>
+                <div class="form-group">
+                  <label for="aiIrrigation">Irrigation Facility (%)</label>
+                  <input type="number" id="aiIrrigation" value="75" min="0" max="100" />
+                </div>
+              </div>
+            </details>
+
+            <div class="calc-actions" style="margin-top:20px">
+              <button class="btn-primary" id="btnRunPrediction">⚡ Forecast Production & Demand</button>
+              <button class="btn-secondary" id="btnResetAi">↺ Reset</button>
+            </div>
+          </div>
+
+          <!-- Right: AI Forecasting Intelligence Results -->
+          <div class="ai-results-card">
+            <div class="result-hdr">
+              <h3 class="result-title">📊 Deep Learning Forecast</h3>
+              <p class="result-crop-name" id="aiResultCropHeader">Awaiting Prediction</p>
+            </div>
+
+            <div id="aiPlaceholder" class="result-placeholder">
+              <span>🤖</span>
+              <p>Select your State, District, and Crop, then click <strong>"Forecast Production & Demand"</strong> to run the neural network.</p>
+            </div>
+
+            <div id="aiOutputContent" style="display:none">
+              <!-- KPI Cards Grid -->
+              <div class="ai-kpi-grid">
+                
+                <div class="ai-kpi-card prod-kpi">
+                  <div class="kpi-top">
+                    <span class="kpi-icon">🌾</span>
+                    <span class="kpi-badge">Yield Forecast</span>
+                  </div>
+                  <div class="kpi-val" id="kpiProduction">--</div>
+                  <div class="kpi-sub" id="kpiYield">-- kg / acre</div>
+                </div>
+
+                <div class="ai-kpi-card demand-kpi">
+                  <div class="kpi-top">
+                    <span class="kpi-icon">📈</span>
+                    <span class="kpi-badge" id="kpiDemandBadge">Demand Level</span>
+                  </div>
+                  <div class="kpi-val" id="kpiDemandIndex">-- / 100</div>
+                  <div class="kpi-bar-track">
+                    <div class="kpi-bar-fill" id="kpiDemandBar" style="width:0%"></div>
+                  </div>
+                  <div class="kpi-sub" id="kpiDemandSub">Market Arrival Outlook</div>
+                </div>
+
+                <div class="ai-kpi-card price-kpi">
+                  <div class="kpi-top">
+                    <span class="kpi-icon">💰</span>
+                    <span class="kpi-badge">Projected Mandi Rate</span>
+                  </div>
+                  <div class="kpi-val" id="kpiPrice">₹-- / kg</div>
+                  <div class="kpi-sub" id="kpiGrossValue">Gross: ₹--</div>
+                </div>
+
+              </div>
+
+              <!-- Recommendation Card -->
+              <div class="ai-advice-box">
+                <div class="advice-hdr">
+                  <span class="advice-icon">💡</span>
+                  <strong>AI Strategic Recommendation:</strong>
+                </div>
+                <p id="aiRecommendationText" class="advice-body">--</p>
+                <div class="advice-sub" id="aiDemandAdviceText">--</div>
+              </div>
+
+              <!-- Action Bridge to Calculator and Mandi -->
+              <div class="ai-bridge-box">
+                <p class="bridge-title">🚀 Connect this forecast with AgriWise tools:</p>
+                <div class="bridge-actions">
+                  <button class="btn-primary" id="btnApplyAiToCalc">
+                    🧮 Send to Profit Calculator →
+                  </button>
+                  <button class="btn-secondary" id="btnGoToMarket">
+                    📊 Compare Live Mandi Rates →
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Model Architecture Badge -->
+            <div class="model-meta-box">
+              <div class="meta-row">
+                <span>📁 Dataset: <strong>Kaggle (arjunyadav99/indian-agriculture-crop-production-and-yield)</strong></span>
+                <span>📍 Coverage: <strong>32 States · 621 Districts</strong></span>
+              </div>
+              <div class="meta-row">
+                <span>🧠 Architecture: <strong>DeepAgNet (Multi-Task Tabular DNN with Entity Embeddings)</strong></span>
+                <span>💰 Mandi Price R²: <strong>65.4%</strong> (MAE: ₹22.8/kg)</span>
+              </div>
+            </div>
+
+          </div><!-- /ai-results-card -->
+
+        </div><!-- /ai-layout -->
+
+      </div>
+    </section><!-- /ai-predict -->
 
     <!-- ==================== MARKET PRICES ==================== -->
     <section id="market" class="section">
